@@ -1,25 +1,34 @@
 # LHIPAUnity
-Calculate the Low-to-High Index of the pupil amplitude (LHIPA) based on signal of pupil diameters in Unity.
+Calculate the Low-to-High Index of the Pupil Amplitude (LHIPA) based on the signal of pupil diameters in Unity.
 
-## Folders:
+## Folders
 
-### Unity\LHIPA\Assets\Scripts
-- * *LHIPA.cs* * LHIPA algorithm in Unity
-- * *Testing* * Scripts to test LHIPA algorithm with different input signals (* *LHIPATester.cs* *) or by simulating eye tracking (* *EyeTrackSimulation.cs* *)
-- * *UI* * Scripts to run * *Testing* *-scripts together with prefabs defined in * *Prefabs* *-folder
-- * *SharpWave* * Updated version of SharpWave including Symlet16-wavelet with Python coeffitients
-- * *pupil_diameter_signals.json* * Example pupil diameter input arrays
+### `Unity/LHIPA/Assets/LHIPA/Scripts`
+- **`LHIPA.cs`** - LHIPA algorithm in Unity.
+- **Testing** - Scripts to test the LHIPA algorithm with different input signals:
+  - **`LHIPATester.cs`** - Test LHIPA algorithm with predefined signals.
+  - **`EyeTrackSimulation.cs`** - Simulate eye tracking for testing.
+- **UI** - Scripts to run testing scripts together with prefabs defined in the **Prefabs** folder.
+- **EyeTracking** - OpenXR eye tracking scrips to test LHIPA in VR.
+- **SharpWave** - Updated version of SharpWave including the Symlet16 wavelet with Python coefficients.
+- **`pupil_diameter_signals.json`** - Example pupil diameter input arrays.
 
-### Unity\LHIPA\Assets\Scenes
-- * *LHIPATestingScene.unity* * Test LHIPA algorithm with different input signals
-- * *EyeTrackingSimulation.unity* * Simulate eye tracking to test LHIPA algorithm
+### `Unity/LHIPA/Assets/LHIPA/Scenes`
+- **`LHIPATestingScene.unity`** - Test the LHIPA algorithm with different input signals.
+- **`EyeTrackingSimulation.unity`** - Simulate eye tracking to test the LHIPA algorithm.
+- **`OpenXREyeTrackingExample.unity`** - OpenXR implementation, is going to be exchanged with SteamVR version.
 
-### Python
-- * *lhipa.py* * LHIPA Python algorithm
-- * *lhipa_test.py* * Executable Python Code to test LHIPA algorithm
-- * *pupil_diameter_signals.json* * Example pupil diameter input arrays
+### `Unity Packages`
+- **`LHIPACoreAlgorithmAndTestingPackage.unitypackage`** - Package contains LHIPA algorithm and all testing resources for Unity.
+- **`LHIPAOpenXRPackage.unitypackage`** - OpenXR implementation of LHIPA with eye tracking. Beta. Only works, when VIVE OpenXR is implemented.
 
-### TestResults
-- * *LHIPATestResults* * LHIPA calculation results of Python algorithm and Unity algorithm with the use of different ModMaxThresholds
-- * *WaveletTestResults* * Rerult Arrays of Symlet16-Decomposition in Python and Unity
-- * *InputSignalsForTests.json* * Example pupil diameter input arrays used to calculate test results
+### `Python`
+- **`lhipa.py`** - LHIPA Python algorithm.
+- **`lhipa_test.py`** - Executable Python code to test the LHIPA algorithm.
+- **`pupil_diameter_signals.json`** - Example pupil diameter input arrays.
+
+### `TestResults`
+- **LHIPATestResults** - LHIPA calculation results of the Python and Unity algorithms using different ModMaxThresholds.
+- **WaveletTestResults** - Result arrays of Symlet16 decomposition in Python and Unity.
+- **`InputSignalsForTests.json`** - Example pupil diameter input arrays used to calculate test results.
+

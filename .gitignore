@@ -42,7 +42,7 @@ crashlytics-build.properties
 # Ignore built files (DO NOT include these in an asset store repo)
 *.apk
 *.aab
-*.unitypackage
+#*.unitypackage
 *.app
 
 # Ignore memory captures & debugging logs
