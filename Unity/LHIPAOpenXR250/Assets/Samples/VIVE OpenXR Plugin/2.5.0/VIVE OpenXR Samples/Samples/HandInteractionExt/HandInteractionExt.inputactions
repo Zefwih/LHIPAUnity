@@ -1,0 +1,526 @@
+{
+    "name": "HandInteractionExt",
+    "maps": [
+        {
+            "name": "Hand",
+            "id": "d604bbb9-5521-468f-a4aa-d0caff739814",
+            "actions": [
+                {
+                    "name": "isTrackedL",
+                    "type": "Button",
+                    "id": "4af9c851-52d5-4e89-ac40-3a2479ad6205",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "trackingStateL",
+                    "type": "Value",
+                    "id": "a0d0317b-4ad2-429f-9005-8eed4e1e83e0",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "isTrackedR",
+                    "type": "Button",
+                    "id": "671ae28c-ae46-4e10-95fa-aa69e01c561e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "trackingStateR",
+                    "type": "Value",
+                    "id": "161ed295-72c9-4e74-9956-b2ff786d6eb6",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "75c0a887-b27b-4bd5-846b-ba5ab1df0a5a",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "isTrackedL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b605cbf6-38fb-422a-b12d-48e386a67e9a",
+                    "path": "<ViveHandInteractionExt>{RightHand}/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "isTrackedR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9535518b-92b1-45ff-9525-624d0c52de13",
+                    "path": "<ViveHandInteractionExt>{RightHand}/trackingState",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "trackingStateR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ccbb62c-6370-4507-847e-8fda100510e8",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/trackingState",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "trackingStateL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HandGrip",
+            "id": "f132d79b-02f5-4eb6-a752-2c3aa84b1139",
+            "actions": [
+                {
+                    "name": "PoseL",
+                    "type": "PassThrough",
+                    "id": "a3ed84bf-b54f-4678-9d6f-abffd735e9e7",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueL",
+                    "type": "Value",
+                    "id": "87058d55-27b6-40d1-9630-7594dab6de20",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyL",
+                    "type": "Button",
+                    "id": "3c3aae7e-d51f-4eb5-b6ed-1fb13220d188",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PoseR",
+                    "type": "PassThrough",
+                    "id": "2dc1f1ce-0d35-4168-9579-1dd7ef6d6ca3",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueR",
+                    "type": "Value",
+                    "id": "62ced5a3-0cd7-4ea4-aa15-1d46d39ab5e6",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyR",
+                    "type": "Button",
+                    "id": "4d41e176-1484-4cf3-980e-801a27833c1e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3f8f640a-e097-4061-8658-06dc0ca6d956",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/devicePose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d41d33db-8b6c-4f21-9459-fd203551d990",
+                    "path": "<ViveHandInteractionExt>{RightHand}/devicePose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48b33d4f-e9f9-4890-b836-d7303386c8b0",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/graspValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e43dc5cd-3e96-4453-b6b2-818250c91436",
+                    "path": "<ViveHandInteractionExt>{RightHand}/graspValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e8a289a-aa43-44fd-bbdf-ed15035ad5ef",
+                    "path": "<ViveHandInteractionExt>{RightHand}/graspReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79e10ffe-7276-4a95-b380-9d244bc2b213",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/graspReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HandPointer",
+            "id": "36692239-474e-4e07-a8bf-7a4467782431",
+            "actions": [
+                {
+                    "name": "PoseL",
+                    "type": "PassThrough",
+                    "id": "fc753b1d-edb3-4a34-9af3-31ed9dc68ca3",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueL",
+                    "type": "Value",
+                    "id": "475ad15e-1ea0-469f-8ba6-39dbc087f8ba",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyL",
+                    "type": "Button",
+                    "id": "47e8c4a6-2dc9-411f-b9b3-08dd949b4326",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PoseR",
+                    "type": "PassThrough",
+                    "id": "7d766280-e032-4e9a-bb74-55ab7a57c3e6",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueR",
+                    "type": "Value",
+                    "id": "ecc71b87-e471-4bac-a287-a10392a2b90a",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyR",
+                    "type": "Button",
+                    "id": "23dbd4a9-8abd-40bf-a19d-d3c75f8090c2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e14b6395-bf59-44fe-a429-90d3543e328a",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pointer",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cbaae569-a034-4ce6-8cdd-eef5586aaa7e",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pointer",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "514be0ed-99f4-4f3a-a53b-672c0caeb1d5",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pointerActivateValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3c9d90b-0ad0-42c6-9cda-1ac1d74719a5",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pointerActivateValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03ca7d96-43df-406f-8b41-c3b8168cbcbc",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pointerActivateReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f20788a-3543-4fd0-8e4e-9ad56108877e",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pointerActivateReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HandPinch",
+            "id": "73e09043-36b0-4cec-bda2-c1c5b861b792",
+            "actions": [
+                {
+                    "name": "PoseL",
+                    "type": "PassThrough",
+                    "id": "8c32c730-5a57-4777-940f-89a87509cc55",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueL",
+                    "type": "Value",
+                    "id": "6540a9fa-617c-4002-b2e3-88f570d80cdf",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyL",
+                    "type": "Button",
+                    "id": "9db1cd9a-767f-4c73-b5b4-a456d29222ef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PoseR",
+                    "type": "PassThrough",
+                    "id": "0cfeb9fc-a2ea-4d3a-bef2-16b09aae7701",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ValueR",
+                    "type": "Value",
+                    "id": "8bd29d21-773b-48ed-83e8-f271af3ec869",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyR",
+                    "type": "Button",
+                    "id": "7aa30173-4639-4222-afe7-9233088036c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8b2b329b-db08-4841-a1e6-df36cb6318bc",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pinchPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92e779f7-ba6f-417d-9f4c-9d5f81790686",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pinchPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5f748fd-da48-423b-864a-340e9934041f",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pinchValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "838dbd9a-6c54-4959-9a92-0168b20d3632",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pinchValue",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ValueR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30bc3116-8581-42b7-9a73-8f4ce570083e",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pinchReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9591b4cc-cf0b-4096-91ae-848358b0f366",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pinchReady",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HandPoke",
+            "id": "a4cfc781-c114-4451-96d5-857c3a9385fa",
+            "actions": [
+                {
+                    "name": "PoseL",
+                    "type": "PassThrough",
+                    "id": "e9feeab8-c68c-47d7-8560-8f3b2c44d2bf",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PoseR",
+                    "type": "PassThrough",
+                    "id": "1bac4e9e-ce3d-4218-bbca-255ef780cf6c",
+                    "expectedControlType": "Pose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "efd73d26-df7d-4b90-93c2-202a5f70c05c",
+                    "path": "<ViveHandInteractionExt>{LeftHand}/pokePose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "124f3c45-0d83-4302-9f2a-cb945f7c268e",
+                    "path": "<ViveHandInteractionExt>{RightHand}/pokePose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PoseR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
