@@ -4,65 +4,69 @@ using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 
-public class ForceVRMode : MonoBehaviour
+namespace lhipa
 {
-    void Start()
+
+    public class ForceVRMode : MonoBehaviour
     {
-        StartCoroutine(CheckXRSubsystems());
-    }
-
-    IEnumerator CheckXRSubsystems()
-    {
-        Debug.Log("Checking available XR subsystems...");
-
-        List<XRDisplaySubsystem> displaySubsystems = new List<XRDisplaySubsystem>();
-        SubsystemManager.GetSubsystems(displaySubsystems);
-
-        if (displaySubsystems.Count == 0)
+        void Start()
         {
-            Debug.LogError("No XR Display Subsystem found! OpenXR might not be initialized.");
-            yield break;
+            StartCoroutine(CheckXRSubsystems());
         }
 
-        foreach (var subsystem in displaySubsystems)
+        IEnumerator CheckXRSubsystems()
         {
-            Debug.Log($"Found XR Display Subsystem: {subsystem.SubsystemDescriptor.id}");
-        }
+            Debug.Log("Checking available XR subsystems...");
 
-        XRDisplaySubsystem xrDisplay = displaySubsystems[0];
+            List<XRDisplaySubsystem> displaySubsystems = new List<XRDisplaySubsystem>();
+            SubsystemManager.GetSubsystems(displaySubsystems);
 
-        if (!xrDisplay.running)
-        {
-            Debug.Log("Trying to start XR Display Subsystem...");
-            xrDisplay.Start();
-        }
+            if (displaySubsystems.Count == 0)
+            {
+                Debug.LogError("No XR Display Subsystem found! OpenXR might not be initialized.");
+                yield break;
+            }
 
-        yield return new WaitForSeconds(2);
+            foreach (var subsystem in displaySubsystems)
+            {
+                Debug.Log($"Found XR Display Subsystem: {subsystem.SubsystemDescriptor.id}");
+            }
 
-        if (xrDisplay.running)
-        {
-            Debug.Log("XR Display Subsystem successfully started!");
-        }
-        else
-        {
-            Debug.LogError("Failed to start XR Display Subsystem. Check OpenXR settings.");
-        }
+            XRDisplaySubsystem xrDisplay = displaySubsystems[0];
 
-        Debug.Log("Checking XR General Settings...");
-        XRGeneralSettings xrGeneralSettings = XRGeneralSettings.Instance;
-        if (xrGeneralSettings == null || xrGeneralSettings.Manager == null)
-        {
-            Debug.LogError("XR General Settings or XR Manager is NULL. OpenXR is not initialized!");
-            yield break;
-        }
+            if (!xrDisplay.running)
+            {
+                Debug.Log("Trying to start XR Display Subsystem...");
+                xrDisplay.Start();
+            }
 
-        if (xrGeneralSettings.Manager.activeLoader == null)
-        {
-            Debug.LogError("No active XR Loader found. OpenXR is not properly set up!");
-        }
-        else
-        {
-            Debug.Log($"Active XR Loader: {xrGeneralSettings.Manager.activeLoader.name}");
+            yield return new WaitForSeconds(2);
+
+            if (xrDisplay.running)
+            {
+                Debug.Log("XR Display Subsystem successfully started!");
+            }
+            else
+            {
+                Debug.LogError("Failed to start XR Display Subsystem. Check OpenXR settings.");
+            }
+
+            Debug.Log("Checking XR General Settings...");
+            XRGeneralSettings xrGeneralSettings = XRGeneralSettings.Instance;
+            if (xrGeneralSettings == null || xrGeneralSettings.Manager == null)
+            {
+                Debug.LogError("XR General Settings or XR Manager is NULL. OpenXR is not initialized!");
+                yield break;
+            }
+
+            if (xrGeneralSettings.Manager.activeLoader == null)
+            {
+                Debug.LogError("No active XR Loader found. OpenXR is not properly set up!");
+            }
+            else
+            {
+                Debug.Log($"Active XR Loader: {xrGeneralSettings.Manager.activeLoader.name}");
+            }
         }
     }
 }

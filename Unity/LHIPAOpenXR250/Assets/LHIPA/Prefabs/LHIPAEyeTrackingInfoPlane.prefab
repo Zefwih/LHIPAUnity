@@ -1693,7 +1693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d0daf39922c984287cb414168dda64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputFilePath: Assets/pupil_data
+  outputFilePath: Assets/LHIPA/pupil_data
   modMaxCorrectionThreshold: 0
   showDetailedCalculationLog: 1
   calculationInterval: 10

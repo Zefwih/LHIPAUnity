@@ -3,26 +3,23 @@ Calculate the Low-to-High Index of the Pupil Amplitude (LHIPA) based on the sign
 
 ## Folders and Files
 
-### `LHIPA.cs`
-LHIPA algorithm in C# for use in Unity.
-
 ### `Unity Packages`
 - **`LHIPACoreAlgorithmAndTestingPackage.unitypackage`** - Package contains LHIPA algorithm and all testing resources for Unity. For all plattforms.
+- **`AssetStorePackage_LHIPAForUnity`** - Same as `LHIPACoreAlgorithmAndTestingPackage.unitypackage` but with documentation and more comments. Package contains LHIPA algorithm and all testing resources for Unity. For all plattforms.
 - **`LHIPAOpenXRPackage.unitypackage`** - OpenXR implementation of LHIPA with eye tracking. Beta. Only works, when latest VIVE OpenXR is integrated into project.
 - **`LHIPAOpenXR250Package.unitypackage`** - OpenXR 2.5.0 implementation of LHIPA with eye tracking. Beta. Only works, when VIVE OpenXR 2.5.0 is integrated into project.
 
 ### `Unity`
-- **`LHIPAOpenXR`** - LHIPA implementation in Unity. For desktop and VR. VR requires latest VIVE OpenXR integration.
-- **`LHIPAOpenXR250`** - LHIPA implementation in Unity. For desktop and VR. VR requires VIVE OpenXR 2.5.0 integration.
+- **`LHIPAOpenXR250`** - LHIPA implementation in Unity. For desktop and VR. VR requires VIVE OpenXR 2.5.0 integration. So far, eye tracking feature seems not to work with VIVE Pro Eye when using OpenXR.
 
-### `Unity/LHIPA/Assets/LHIPA/Scripts`
+### `Unity/LHIPAOpenXR250/Assets/LHIPA/Scripts`
 - **`LHIPA.cs`** - LHIPA algorithm in C# for use in Unity.
+- **SharpWave** - Updated version of SharpWave including the Symlet16 wavelet with Python coefficients. Must be in project to run `LHIPA.cs`!
 - **Testing** - Scripts to test the LHIPA algorithm with different input signals:
   - **`LHIPATester.cs`** - Test LHIPA algorithm with predefined signals.
   - **`EyeTrackSimulation.cs`** - Simulate eye tracking for testing.
 - **UI** - Scripts to run testing scripts together with prefabs defined in the **Prefabs** folder.
 - **EyeTracking** - OpenXR eye tracking scrips to test LHIPA in VR.
-- **SharpWave** - Updated version of SharpWave including the Symlet16 wavelet with Python coefficients.
 - **`pupil_diameter_signals.json`** - Example pupil diameter input arrays.
 
 ### `Unity/LHIPA/Assets/LHIPA/Scenes`

@@ -3961,8 +3961,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   durationInSeconds: 1
   modMaxCorrectionThreshold: 0
-  inputFilePath: Assets/pupil_diameter_signals.json
-  outputFilePath: Assets/lhipa_results.csv
+  inputFilePath: Assets/LHIPA/pupil_diameter_signals.json
+  outputFilePath: Assets/LHIPA/lhipa_results.csv
   consoleLog: 1
   eyeDiametersExampleArray:
   - 3.2
