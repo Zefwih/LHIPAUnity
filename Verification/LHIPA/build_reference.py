@@ -16,6 +16,9 @@ OFFSET = L // 2           # 16
 
 # ---------- validated periodization single-step DWT (matches pywt mode='per') ----------
 def dwt_per_step(x, filt):
+    x = np.asarray(x, dtype=float)
+    if len(x) % 2 == 1:                 # pywt periodization: extend odd signal by its last sample
+        x = np.append(x, x[-1])
     N = len(x); half = N // 2
     out = np.zeros(half)
     for i in range(half):
@@ -38,14 +41,16 @@ def detail_at_level(x, level):
 # sanity: cascade reproduces pywt.downcoef('d', level) exactly
 def validate_cascade():
     rng = np.random.default_rng(7)
-    for N in (512, 1024, 2048):
+    # include non-power-of-two lengths (with odd intermediate levels) to exercise periodization
+    for N in (512, 1024, 2048, 500, 1500, 2700, 5001):
         x = rng.standard_normal(N)
         for lvl in (1, 2, 3):
             mine = detail_at_level(x, lvl)
             ref = pywt.downcoef('d', x, 'sym16', 'per', level=lvl)
             err = np.max(np.abs(mine - ref))
             assert err < 1e-9, (N, lvl, err)
-    print("cascade detail_at_level matches pywt.downcoef to <1e-9 for levels 1-3  ✔")
+    print("cascade detail_at_level matches pywt.downcoef to <1e-9 for levels 1-3 "
+          "(incl. non-power-of-two lengths)  OK")
 
 # ---------- modmax / threshold (faithful to the paper's helper & C# port) ----------
 def modmax(d):
@@ -101,7 +106,9 @@ def lhipa_newmodel(d, tt):
 def make_signals():
     sig = {}
     rng = np.random.default_rng(123)
-    for N in (512, 1024, 2048):
+    # Mix power-of-two AND realistic non-power-of-two lengths (real pupil recordings are never 2^k):
+    # 2700 = 30 s @ 90 Hz, 5001 = ~10 s @ 500 Hz, etc. These exercise the odd-length periodization path.
+    for N in (512, 1024, 2048, 500, 1500, 2700, 5001):
         t = np.arange(N)
         base = 3.5
         sig[f"sine_lowfreq_{N}"]  = base + 0.3*np.sin(2*np.pi*t/64)

@@ -31,11 +31,17 @@ bash run_verification.sh        # set CSC=/path/to/csc.exe if auto-detection fai
 * The single-level periodization convolution `out[i] = Σ_k filt[k]·x[(2i + L/2 − k) mod N]`
   (offset `L/2 = 16` for sym16, `L = 32`) reproduces
   `pywt.downcoef('a'/'d', x, 'sym16', 'per', level=1)` to **0.0** error.
+* Odd-length signals: like `pywt` periodization, `LHIPA.cs` extends an odd-length signal by
+  repeating its last sample (one extra), giving `ceil(N/2)` coefficients. The DWT runs on the
+  **raw** signal length (no power-of-two padding), exactly as the paper calls `pywt.downcoef`
+  on the recorded samples — so the port is faithful for arbitrary (non-power-of-two) lengths,
+  which is what real pupil recordings always are.
+* Both the single step and the full Mallat cascade were checked against `pywt.downcoef` for
+  **every length from 256 to 6000** (incl. odd intermediate levels): worst-case error 3.6e-15.
 * The reference is recomputed on float32-cast inputs so the only thing under test is the
   algorithm, not single- vs double-precision input.
-* Test signals use power-of-two lengths (512/1024/2048); for these the C# matches `pywt`
-  with no padding. For non-power-of-two inputs `LHIPA.cs` periodically pads to the next power
-  of two (a documented approximation vs `pywt`-on-raw-length).
+* The test battery mixes power-of-two (512/1024/2048) and realistic non-power-of-two lengths
+  (500, 1500, 2700 = 30 s @ 90 Hz, 5001 ≈ 10 s @ 500 Hz).
 
 ## Verified result (PyWavelets 1.8.0, numpy 2.4.x, sym16)
 
