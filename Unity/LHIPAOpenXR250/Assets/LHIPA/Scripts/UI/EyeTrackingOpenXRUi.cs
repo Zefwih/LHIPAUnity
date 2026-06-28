@@ -129,6 +129,11 @@ namespace lhipa
                     float[] results = tracker.StopEyeTrackingRecordingAndCalculateLHIPA();
                     recordingIndicatorImage.color = Color.red;
                     recordingIndicatorText.text = "NOT RECORDING";
+                    if (results == null || results.Length < 3)
+                    {
+                        Debug.LogWarning("LHIPA result unavailable (recording was not active).");
+                        return;
+                    }
                     float currentLhipaValue = results[0];
                     recordingLHIPAText.text = currentLhipaValue.ToString("F3");
                     durationText.text = "Duration: " + results[1].ToString("F2") + " s\nSampling Rate: " +

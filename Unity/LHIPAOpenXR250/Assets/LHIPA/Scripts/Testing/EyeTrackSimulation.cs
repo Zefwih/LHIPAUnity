@@ -46,6 +46,7 @@ namespace lhipa
         private float lastSampleTime;
         float samplingInterval;
         private bool simulationOngoing = false;
+        private float simulationPhase = 0f; // fixed per session; a per-sample random phase would be noise
 
         private void Start()
         {
@@ -61,6 +62,7 @@ namespace lhipa
             startTime = Time.time;
             samplingInterval = 1f / samplingRate;
             lastSampleTime = -samplingInterval;
+            simulationPhase = UnityEngine.Random.Range(0f, Mathf.PI * 2f); // one stable phase per session
             simulationOngoing = true;
         }
 
@@ -97,11 +99,20 @@ namespace lhipa
             {
                 float duration = Time.time - startTime;
                 float[] dataSlice = pupilDiameters.Take(currentIndex).ToArray();
-                currentLHIPAValue = LHIPA.CalculateLHIPA(dataSlice, duration, modMaxCorrectionThreshold,
-                    showDetailedCalculationLog);
 
-                Debug.Log(
-                    "----------------- Current LHIPA Value: " + currentLHIPAValue + " ---------------------------");
+                if (dataSlice.Length >= LHIPA.MinSamples)
+                {
+                    currentLHIPAValue = LHIPA.CalculateLHIPA(dataSlice, duration, modMaxCorrectionThreshold,
+                        showDetailedCalculationLog);
+
+                    Debug.Log(
+                        "----------------- Current LHIPA Value: " + currentLHIPAValue + " ---------------------------");
+                }
+                else
+                {
+                    Debug.LogWarning($"Not enough samples for LHIPA (need >= {LHIPA.MinSamples}, " +
+                                     $"got {dataSlice.Length}). Increase samplingRate or calculationInterval.");
+                }
 
                 // Clear simulation data
                 Array.Clear(pupilDiameters, 0, currentIndex);
@@ -118,18 +129,19 @@ namespace lhipa
         /// </returns>
         public float GetPupilDiameterFromEyeTracker()
         {
-            // Simulated pupil diameters with frequency variations
-            float time = Time.time % (simulationSwitchInterval * 2); // 10 seconds cycles
-            float phase = UnityEngine.Random.Range(0f, Mathf.PI * 2f); // random phase shift
+            // Simulated pupil diameters with frequency variations; cycle length = simulationSwitchInterval * 2.
+            // Use a phase that is fixed for the session (set in StartSimulation) so the sine waves are
+            // continuous instead of being re-randomized every sample (which would just produce noise).
+            float time = Time.time % (simulationSwitchInterval * 2);
             if (time < simulationSwitchInterval)
             {
                 // High-Frequency-Phase
-                return baselineDiameter + 0.01f * Mathf.Sin(20f * Mathf.PI * time + phase); // 10 Hz
+                return baselineDiameter + 0.01f * Mathf.Sin(20f * Mathf.PI * time + simulationPhase); // 10 Hz
             }
             else
             {
                 // Low-Frequency-Phase
-                return baselineDiameter + 0.05f * Mathf.Sin(5f * Mathf.PI * time + phase); // 2.5 Hz
+                return baselineDiameter + 0.05f * Mathf.Sin(5f * Mathf.PI * time + simulationPhase); // 2.5 Hz
             }
         }
 
