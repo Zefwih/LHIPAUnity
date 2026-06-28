@@ -1,0 +1,13 @@
+# generated verification artifacts
+*.exe
+*.pdb
+signals.csv
+reference.json
+new_bands.json
+new_results.csv
+old_results.csv
+edge*.csv
+*_err.txt
+err_*.txt
+csharp_filters.txt
+__pycache__/
