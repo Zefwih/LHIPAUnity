@@ -41,6 +41,13 @@ namespace lhipa
         {
             // Get reference to script
             tracker = transform.GetComponent<LHIPAOpenXRTracking>();
+            if (tracker == null)
+            {
+                Debug.LogError($"{nameof(EyeTrackingOpenXRUi)} requires a {nameof(LHIPAOpenXRTracking)} " +
+                               "component on the same GameObject. Disabling this UI.");
+                enabled = false; // stops Update() from running and dereferencing a null tracker
+                return;
+            }
 
             // Check VR connection
             if (XRGeneralSettings.Instance.Manager.activeLoader != null)
