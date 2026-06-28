@@ -96,10 +96,10 @@ namespace lhipa
 
             if (debugLog) Debug.Log($"Input Signal: [{string.Join(" | ", pupilData)}]");
 
-            // Work in double precision; pad to a power of two with periodic extension so every Mallat
-            // level keeps an even length (no-op when the input is already a power of two).
+            // Work in double precision, on the raw signal length (the reference calls pywt.downcoef
+            // directly on the recorded samples). Odd lengths are handled inside DwtPerStep exactly as
+            // pywt's periodization does, so no power-of-two padding is needed.
             double[] signal = pupilData.Select(x => (double)x).ToArray();
-            double[] extended = ExtendSignalToBinaryWithPeriodic(signal);
 
             // Decomposition levels, matching pywt.dwt_max_level(len, dec_len) = floor(log2(len/(dec_len-1))).
             int maxLevel = (int)Math.Floor(Math.Log(pupilData.Length / (double)(FilterLength - 1), 2.0));
@@ -108,8 +108,8 @@ namespace lhipa
             if (debugLog) Debug.Log($"maxLevel: {maxLevel}, hif: {hif}, lof: {lof}");
 
             // Detail (high-pass) coefficients at the two octaves, normalized by 1/sqrt(2^level) as in the paper.
-            double[] cD_H = NormalizeByScale(DetailAtLevel(extended, hif), hif);
-            double[] cD_L = NormalizeByScale(DetailAtLevel(extended, lof), lof);
+            double[] cD_H = NormalizeByScale(DetailAtLevel(signal, hif), hif);
+            double[] cD_L = NormalizeByScale(DetailAtLevel(signal, lof), lof);
 
             if (debugLog)
                 Debug.Log($"cD_H (len {cD_H.Length}) avg {cD_H.Average()} | cD_L (len {cD_L.Length}) avg {cD_L.Average()}");
@@ -162,6 +162,16 @@ namespace lhipa
         private static double[] DwtPerStep(double[] x, double[] filt)
         {
             int n = x.Length;
+            // pywt periodization extends an odd-length signal by repeating its last sample (so the
+            // output has ceil(n/2) coefficients), then convolves/downsamples periodically.
+            if ((n & 1) == 1)
+            {
+                double[] padded = new double[n + 1];
+                Array.Copy(x, padded, n);
+                padded[n] = x[n - 1];
+                x = padded;
+                n++;
+            }
             int half = n / 2;
             int offset = filt.Length / 2; // L/2 = 16 for sym16
             double[] outCoef = new double[half];
@@ -193,33 +203,6 @@ namespace lhipa
                 approximation = DwtPerStep(approximation, DecLo);
             }
             return detail;
-        }
-
-        // Periodic extension to the next power of two (no-op if already a power of two).
-        private static double[] ExtendSignalToBinaryWithPeriodic(double[] signal)
-        {
-            int signalLength = signal.Length;
-            int targetLength = NextPowerOfTwo(signalLength);
-            if (targetLength == signalLength)
-                return (double[])signal.Clone();
-
-            int leftLength = (targetLength - signalLength) / 2;
-            int rightLength = targetLength - signalLength - leftLength; // covers odd gaps; no slot left uninitialized
-
-            double[] extended = new double[targetLength];
-
-            // Left border: last `leftLength` samples of the signal.
-            for (int i = 0; i < leftLength; i++)
-                extended[i] = signal[signalLength - leftLength + i];
-
-            // Main signal.
-            Array.Copy(signal, 0, extended, leftLength, signalLength);
-
-            // Right border: first `rightLength` samples of the signal.
-            for (int i = 0; i < rightLength; i++)
-                extended[leftLength + signalLength + i] = signal[i];
-
-            return extended;
         }
 
         // Normalize detail coefficients by 1/sqrt(2^level), as in the reference.
@@ -284,14 +267,6 @@ namespace lhipa
             return result;
         }
 
-        // Smallest power of two >= n.
-        private static int NextPowerOfTwo(int n)
-        {
-            if (n <= 0)
-                throw new ArgumentException("Input must be a positive integer.");
-            return (int)Math.Pow(2, Math.Ceiling(Math.Log(n, 2)));
-        }
-
 #if LHIPA_TEST
         /// <summary>
         /// Test-only seam (compiled only when LHIPA_TEST is defined): exposes the normalized cD_H / cD_L
@@ -300,12 +275,11 @@ namespace lhipa
         public static void ComputeBandsForTest(float[] pupilData, out double[] cdH, out double[] cdL)
         {
             double[] signal = pupilData.Select(x => (double)x).ToArray();
-            double[] extended = ExtendSignalToBinaryWithPeriodic(signal);
             int maxLevel = (int)Math.Floor(Math.Log(pupilData.Length / (double)(FilterLength - 1), 2.0));
             int hif = 1;
             int lof = Math.Max(1, maxLevel / 2);
-            cdH = NormalizeByScale(DetailAtLevel(extended, hif), hif);
-            cdL = NormalizeByScale(DetailAtLevel(extended, lof), lof);
+            cdH = NormalizeByScale(DetailAtLevel(signal, hif), hif);
+            cdL = NormalizeByScale(DetailAtLevel(signal, lof), lof);
         }
 #endif
     }
