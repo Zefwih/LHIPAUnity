@@ -16,7 +16,8 @@ namespace lhipa
 
             if (logoTexture == null)
             {
-                Debug.Log("Failed to load logo texture.");
+                Debug.LogWarning("Failed to load logo texture at " +
+                                 "Assets/LHIPA/Scripts/Editor/ResearchThemeBanner.png");
             }
 
         }
@@ -51,7 +52,8 @@ namespace lhipa
 
             if (logoTexture == null)
             {
-                Debug.Log("Failed to load logo texture.");
+                Debug.LogWarning("Failed to load logo texture at " +
+                                 "Assets/LHIPA/Scripts/Editor/ResearchThemeBanner.png");
             }
 
         }
@@ -86,7 +88,8 @@ namespace lhipa
 
             if (logoTexture == null)
             {
-                Debug.Log("Failed to load logo texture.");
+                Debug.LogWarning("Failed to load logo texture at " +
+                                 "Assets/LHIPA/Scripts/Editor/ResearchThemeBanner.png");
             }
 
         }
@@ -121,7 +124,8 @@ namespace lhipa
 
             if (logoTexture == null)
             {
-                Debug.Log("Failed to load logo texture.");
+                Debug.LogWarning("Failed to load logo texture at " +
+                                 "Assets/LHIPA/Scripts/Editor/ResearchThemeBanner.png");
             }
 
         }

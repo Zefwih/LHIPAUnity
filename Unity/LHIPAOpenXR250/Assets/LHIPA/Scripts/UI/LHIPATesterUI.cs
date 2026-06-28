@@ -30,6 +30,13 @@ namespace lhipa
         {
             // Find EyeTrackSimulation reference
             lhipaTester = transform.GetComponent<LHIPATester>();
+            if (lhipaTester == null)
+            {
+                Debug.LogError($"{nameof(LHIPATesterUI)} requires a {nameof(LHIPATester)} " +
+                               "component on the same GameObject. Disabling this UI.");
+                enabled = false;
+                return;
+            }
 
             // Write initial values into Text Fields and Toggles
             showDetailedCalculationLogToggle.isOn = lhipaTester.consoleLog;
@@ -41,6 +48,17 @@ namespace lhipa
             showDetailedCalculationLogToggle.onValueChanged.AddListener(UpdateShowDetailedCalculationLog);
             calculationIntervalInputField.onEndEdit.AddListener(UpdateCalculationInterval);
             modMaxCorrectionInputField.onEndEdit.AddListener(UpdateModMaxThreshold);
+        }
+
+        private void OnDestroy()
+        {
+            // Remove the listeners added in Start() to avoid leaking them when this UI is destroyed.
+            if (showDetailedCalculationLogToggle != null)
+                showDetailedCalculationLogToggle.onValueChanged.RemoveListener(UpdateShowDetailedCalculationLog);
+            if (calculationIntervalInputField != null)
+                calculationIntervalInputField.onEndEdit.RemoveListener(UpdateCalculationInterval);
+            if (modMaxCorrectionInputField != null)
+                modMaxCorrectionInputField.onEndEdit.RemoveListener(UpdateModMaxThreshold);
         }
 
         public void UseInputFileButtonPressed()

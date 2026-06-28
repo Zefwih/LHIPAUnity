@@ -111,7 +111,7 @@ namespace lhipa
                     float lhipaResult =
                         Mathf.Round(LHIPA.CalculateLHIPA(testArray, durationInSeconds, modMaxCorrectionThreshold,
                             consoleLog) * 1000000) / 1000000; // Round to 6 decimals
-                    writer.WriteLine($"{lhipaResult}");
+                    writer.WriteLine(lhipaResult.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
             }
 

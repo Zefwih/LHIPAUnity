@@ -41,6 +41,13 @@ namespace lhipa
         {
             // Get reference to script
             tracker = transform.GetComponent<LHIPAOpenXRTracking>();
+            if (tracker == null)
+            {
+                Debug.LogError($"{nameof(EyeTrackingOpenXRUi)} requires a {nameof(LHIPAOpenXRTracking)} " +
+                               "component on the same GameObject. Disabling this UI.");
+                enabled = false; // stops Update() from running and dereferencing a null tracker
+                return;
+            }
 
             // Check VR connection
             if (XRGeneralSettings.Instance.Manager.activeLoader != null)
@@ -129,6 +136,11 @@ namespace lhipa
                     float[] results = tracker.StopEyeTrackingRecordingAndCalculateLHIPA();
                     recordingIndicatorImage.color = Color.red;
                     recordingIndicatorText.text = "NOT RECORDING";
+                    if (results == null || results.Length < 3)
+                    {
+                        Debug.LogWarning("LHIPA result unavailable (recording was not active).");
+                        return;
+                    }
                     float currentLhipaValue = results[0];
                     recordingLHIPAText.text = currentLhipaValue.ToString("F3");
                     durationText.text = "Duration: " + results[1].ToString("F2") + " s\nSampling Rate: " +

@@ -33,6 +33,13 @@ namespace lhipa
         {
             // Find EyeTrackSimulation Reference
             eyeTrackSimulation = transform.GetComponent<EyeTrackSimulation>();
+            if (eyeTrackSimulation == null)
+            {
+                Debug.LogError($"{nameof(EyeTrackingSimulationUI)} requires an {nameof(EyeTrackSimulation)} " +
+                               "component on the same GameObject. Disabling this UI.");
+                enabled = false;
+                return;
+            }
 
             // IWrite initial values into InputFields and Toggles
             baselineDiameterInputField.text = eyeTrackSimulation.baselineDiameter.ToString();
@@ -51,6 +58,23 @@ namespace lhipa
             samplingRateInputField.onEndEdit.AddListener(UpdateSamplingRate);
 
             showDetailedCalculationLogToggle.onValueChanged.AddListener(UpdateShowDetailedCalculationLog);
+        }
+
+        private void OnDestroy()
+        {
+            // Remove the listeners added in Start() to avoid leaking them when this UI is destroyed.
+            if (baselineDiameterInputField != null)
+                baselineDiameterInputField.onEndEdit.RemoveListener(UpdateBaselineDiameter);
+            if (simulationSwitchIntervalInputField != null)
+                simulationSwitchIntervalInputField.onEndEdit.RemoveListener(UpdateSimulationSwitchInterval);
+            if (calculationIntervalInputField != null)
+                calculationIntervalInputField.onEndEdit.RemoveListener(UpdateCalculationInterval);
+            if (modMaxCorrectionInputField != null)
+                modMaxCorrectionInputField.onEndEdit.RemoveListener(UpdateModMaxThreshold);
+            if (samplingRateInputField != null)
+                samplingRateInputField.onEndEdit.RemoveListener(UpdateSamplingRate);
+            if (showDetailedCalculationLogToggle != null)
+                showDetailedCalculationLogToggle.onValueChanged.RemoveListener(UpdateShowDetailedCalculationLog);
         }
 
         private void UpdateBaselineDiameter(string input)

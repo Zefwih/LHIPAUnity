@@ -102,7 +102,7 @@ namespace lhipa
         /// </returns>
         public float[] StopEyeTrackingRecordingAndCalculateLHIPA()
         {
-            if (!isRecording) return new[] { -1f, -1f };
+            if (!isRecording) return new[] { -1f, -1f, -1f };
             isRecording = false;
             // Create log file
             filePath = outputFilePath + DateTime.Now.ToString("yyyyMMdd_HHmmss_fff") + ".csv";
@@ -111,7 +111,16 @@ namespace lhipa
             SaveFloatArrayToJson(dataSlice, filePath);
             // Calculate LHIPA from recorded data and return it
             float duration = Time.time - startTime;
-            float samplingRate = dataSlice.Length / duration;
+            float samplingRate = duration > 0f ? dataSlice.Length / duration : 0f;
+
+            // Guard: LHIPA needs at least LHIPA.MinSamples values, otherwise CalculateLHIPA throws.
+            if (dataSlice.Length < LHIPA.MinSamples)
+            {
+                Debug.LogWarning($"Not enough samples for LHIPA (need >= {LHIPA.MinSamples}, " +
+                                 $"got {dataSlice.Length}). Returning -1.");
+                return new[] { -1f, duration, samplingRate };
+            }
+
             float resultLHIPAvalue = LHIPA.CalculateLHIPA(dataSlice, duration, modMaxCorrectionThreshold,
                 showDetailedCalculationLog);
             Debug.Log("Result LHIPA value: " + resultLHIPAvalue + ", Duration of recording: " + duration +
@@ -125,7 +134,8 @@ namespace lhipa
         // Save float array into given file path
         private static void SaveFloatArrayToJson(float[] array, string filePath)
         {
-            string json = $"[{string.Join(",", array)}]";
+            string json = "[" + string.Join(",",
+                array.Select(x => x.ToString(System.Globalization.CultureInfo.InvariantCulture))) + "]";
             try
             {
                 File.WriteAllText(filePath, json);
@@ -178,11 +188,21 @@ namespace lhipa
                 XrSingleEyePupilDataHTC leftPupil = pupilData[(int)XrEyePositionHTC.XR_EYE_POSITION_LEFT_HTC];
                 XrSingleEyePupilDataHTC rightPupil = pupilData[(int)XrEyePositionHTC.XR_EYE_POSITION_RIGHT_HTC];
 
-                float pupilLeft = leftPupil.isDiameterValid ? leftPupil.pupilDiameter : -1f;
-                float pupilRight = rightPupil.isDiameterValid ? rightPupil.pupilDiameter : -1f;
+                // Average only the valid eyes. If neither eye reports a valid diameter (e.g. during a
+                // blink or tracking loss) skip the sample entirely, so the -1 sentinel never pollutes
+                // the signal that LHIPA is computed from.
+                float diameterSum = 0f;
+                int validEyeCount = 0;
+                if (leftPupil.isDiameterValid)  { diameterSum += leftPupil.pupilDiameter;  validEyeCount++; }
+                if (rightPupil.isDiameterValid) { diameterSum += rightPupil.pupilDiameter; validEyeCount++; }
 
-                // Calculate average of left and right pupil diameter
-                float currentDiameter = (pupilLeft + pupilRight) / 2;
+                if (validEyeCount == 0)
+                {
+                    Debug.LogWarning("No valid pupil diameter this frame (blink / tracking loss); sample skipped.");
+                    return;
+                }
+
+                float currentDiameter = diameterSum / validEyeCount;
 
                 Debug.Log($"Pupil diameter: {currentDiameter} mm");
 
@@ -206,14 +226,24 @@ namespace lhipa
                     // Calculate LHIPA all calculationInterval seconds
                     if (Time.time - startTimeLive >= calculationInterval)
                     {
-                        float duration = Time.time - startTime;
-                        float[] dataSlice = pupilDiametersLive.Take(currentIndex).ToArray();
-                        currentLiveLHIPAValue = LHIPA.CalculateLHIPA(dataSlice, duration, modMaxCorrectionThreshold,
-                            showDetailedCalculationLog);
+                        // Use the live-scope start time and index (not the recording-scope ones).
+                        float duration = Time.time - startTimeLive;
+                        float[] dataSlice = pupilDiametersLive.Take(currentIndexLive).ToArray();
 
-                        Debug.Log(
-                            "----------------- Current LHIPA Value: " + currentLiveLHIPAValue +
-                            " ---------------------------");
+                        if (dataSlice.Length >= LHIPA.MinSamples)
+                        {
+                            currentLiveLHIPAValue = LHIPA.CalculateLHIPA(dataSlice, duration,
+                                modMaxCorrectionThreshold, showDetailedCalculationLog);
+
+                            Debug.Log(
+                                "----------------- Current LHIPA Value: " + currentLiveLHIPAValue +
+                                " ---------------------------");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Not enough samples for LHIPA live calculation " +
+                                             $"(need >= {LHIPA.MinSamples}, got {dataSlice.Length}).");
+                        }
 
                         // Clear pupil diameter array
                         Array.Clear(pupilDiametersLive, 0, currentIndexLive);
