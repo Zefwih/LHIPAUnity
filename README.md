@@ -13,9 +13,10 @@ It is independent of sampling rate and provides a standardized measure of cognit
 
 A **higher LHIPA value** indicates increased cognitive demand, while a **lower value** suggests minimal effort or distraction.
 
-### Example Values:
-- **0.05** = Low cognitive load  
-- **0.25** = High cognitive load
+### Important:
+Values ​​in this implementation can vary significantly depending on the sampling rate and recording duration used. 
+A value indicating high cognitive load under settings with a specific sampling rate and recording duration might indicate low cognitive load under different settings. 
+Therefore, the **absolute LHIPA value itself is not what matters**; rather, it is the **relative comparison of LHIPA values** ​​calculated using the same settings.
 
 ---
 
@@ -213,7 +214,7 @@ https://github.com/graetz23/sharpWave
 MIT License:  
 https://github.com/graetz23/sharpWave/blob/master/LICENSE  
 
-You may replace the wavelet backend if needed.
+Right now, these waveletes are not used for LHIPA calculation anymore. But we keep the modivied wavelets in the repo so that they can be used for comparions between different calculations.
 
 ---
 

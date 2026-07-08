@@ -95,6 +95,7 @@ namespace lhipa
             if (float.TryParse(input, out float value) && value >= 0)
             {
                 eyeTrackSimulation.simulationSwitchInterval = value;
+                eyeTrackSimulation.ComputeTargetFrequencies();
             }
             else
             {
@@ -134,6 +135,7 @@ namespace lhipa
             if (float.TryParse(input, out float value) && value > 0)
             {
                 eyeTrackSimulation.samplingRate = value;
+                eyeTrackSimulation.ComputeTargetFrequencies();
             }
             else
             {

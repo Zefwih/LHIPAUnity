@@ -47,9 +47,15 @@ namespace lhipa
         float samplingInterval;
         private bool simulationOngoing = false;
         private float simulationPhase = 0f; // fixed per session; a per-sample random phase would be noise
+        
+        private const int FilterLength = 32; // Symlet16
+
+        private float lowFreqHz;   // target frequency for Low-Frequency-Phase (lof)
+        private float highFreqHz;  // target frequency for High-Frequency-Phase (hif)
 
         private void Start()
         {
+            ComputeTargetFrequencies();
             if (startWithScene) StartSimulation();
         }
 
@@ -120,6 +126,26 @@ namespace lhipa
                 startTime = Time.time;
             }
         }
+        
+        /// <summary>
+        /// Compute new frequency targets dependent on sampling rate and pupil change interval.
+        /// </summary>
+        public void ComputeTargetFrequencies()
+        {
+            int sampleCount = Mathf.RoundToInt(calculationInterval * samplingRate);
+            int maxLevel = Mathf.FloorToInt(Mathf.Log(sampleCount / (float)(FilterLength - 1), 2f));
+            int lof = Mathf.Max(1, maxLevel / 2);
+
+            // hif: [fs/4, fs/2]
+            highFreqHz = samplingRate * 3f / 8f;
+
+            // lof: [fs/2^(lof+1), fs/2^lof]
+            float lofLow = samplingRate / Mathf.Pow(2, lof + 1);
+            float lofHigh = samplingRate / Mathf.Pow(2, lof);
+            lowFreqHz = (lofLow + lofHigh) / 2f;
+
+            Debug.Log($"Simulator: hif≈{highFreqHz:F1} Hz, lof≈{lowFreqHz:F1} Hz (N={sampleCount}, maxLevel={maxLevel}, lof-Level={lof})");
+        }
 
         /// <summary>
         /// Eye Tracking Simulation Method that changes between high and low eye diameter values
@@ -136,12 +162,12 @@ namespace lhipa
             if (time < simulationSwitchInterval)
             {
                 // High-Frequency-Phase
-                return baselineDiameter + 0.01f * Mathf.Sin(20f * Mathf.PI * time + simulationPhase); // 10 Hz
+                return baselineDiameter + 0.01f * Mathf.Sin(2f * Mathf.PI * highFreqHz * time + simulationPhase);
             }
             else
             {
                 // Low-Frequency-Phase
-                return baselineDiameter + 0.05f * Mathf.Sin(5f * Mathf.PI * time + simulationPhase); // 2.5 Hz
+                return baselineDiameter + 0.05f * Mathf.Sin(2f * Mathf.PI * lowFreqHz * time + simulationPhase);
             }
         }
 
