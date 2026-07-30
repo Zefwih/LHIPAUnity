@@ -221,10 +221,11 @@ Right now, these waveletes are not used for LHIPA calculation anymore. But we ke
 ## Folders and Files
 
 ### `Unity Packages`
-- **`LHIPACoreAlgorithmAndTestingPackage.unitypackage`** - Package contains LHIPA algorithm and all testing resources for Unity. For all platforms.
-- **`AssetStorePackage_LHIPAForUnity`** - Same as `LHIPACoreAlgorithmAndTestingPackage.unitypackage` but with documentation and more comments. The package contains the LHIPA algorithm and all testing resources for Unity. For all platforms.
-- **`LHIPAOpenXRPackage.unitypackage`** - OpenXR implementation of LHIPA with eye tracking. Beta. Only works when the latest VIVE OpenXR is integrated into the project.
-- **`LHIPAOpenXR250Package.unitypackage`** - OpenXR 2.5.0 implementation of LHIPA with eye tracking. Beta. Only works when VIVE OpenXR 2.5.0 is integrated into the project.
+- **`AssetStorePackage_LHIPAForUnity2026`** - Package contains LHIPA algorithm and all testing resources for Unity with documentation. The package contains the LHIPA algorithm and all testing resources for Unity. For all platforms. This is the package you need for most cases!
+
+- **`LHIPACoreAlgorithmAndTestingPackage.unitypackageUsingSymlet16Wavelet`** - Package contains alternative Symlet16 Wavelet LHIPA implementation and all testing resources for Unity. For all platforms.
+- **`LHIPAOpenXRPackage.unitypackage`** - OpenXR implementation of LHIPA Symlet16 implementation with eye tracking. Beta. Only works when the latest VIVE OpenXR is integrated into the project.
+- **`LHIPAOpenXR250Package.unitypackage`** - OpenXR 2.5.0 implementation of LHIPA Symlet16 implementation with eye tracking. Beta. Only works when VIVE OpenXR 2.5.0 is integrated into the project.
 
 ### `Unity`
 - **`LHIPAOpenXR250`** - LHIPA implementation in Unity. For desktop and VR. VR requires VIVE OpenXR 2.5.0 integration. So far, the eye-tracking feature seems not to work with VIVE Pro Eye when using OpenXR.
